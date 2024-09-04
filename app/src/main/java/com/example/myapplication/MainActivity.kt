@@ -12,24 +12,28 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
 import androidx.compose.material3.carousel.HorizontalUncontainedCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.myapplication.ui.theme.buttonColor
 import com.example.myapplication.ui.theme.deepBlue
 
 class MainActivity : ComponentActivity() {
@@ -46,7 +50,9 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun App(modifier: Modifier = Modifier) {
+fun App() {
+    val itemWidht = 200.dp
+    val itemSpace = 3.dp
 
     val items = listOf(
         R.drawable.small,
@@ -66,15 +72,16 @@ fun App(modifier: Modifier = Modifier) {
 
     ) {
         Top()
+        Spacer(modifier = Modifier.height(50.dp))
         HorizontalMultiBrowseCarousel(
-            itemSpacing = 5.dp,
+            itemSpacing = itemSpace,
             state = rememberCarouselState { items.count() },
-            preferredItemWidth = 186.dp,
+            preferredItemWidth = itemWidht,
+            modifier = Modifier
         ) { i ->
             val item = items[i]
             Image(
-                modifier = Modifier
-                    .maskClip(MaterialTheme.shapes.extraLarge),
+                modifier = Modifier.maskClip(MaterialTheme.shapes.extraLarge),
                 painter = painterResource(id = item),
                 contentDescription = null,
                 contentScale = ContentScale.Fit
@@ -86,8 +93,8 @@ fun App(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(16.dp))
         HorizontalUncontainedCarousel(
             state = rememberCarouselState { items.count() },
-            itemWidth = 186.dp,
-            itemSpacing = 8.dp,
+            itemWidth = itemWidht,
+            itemSpacing = itemSpace,
             modifier = Modifier.fillMaxWidth()
         ) {
             val item = items[it]
@@ -106,21 +113,28 @@ fun App(modifier: Modifier = Modifier) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Top(modifier: Modifier = Modifier) {
-    TopAppBar(
+fun Top() {
+    CenterAlignedTopAppBar(
         title = {
+
+
+            Spacer(modifier = Modifier.width(3.dp))
             Text(
-                "Carousel Test App",
-                textAlign = TextAlign.Center,
+                text = "VortexCraft",
                 color = Color.White,
-                modifier = Modifier.fillMaxWidth()
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center
             )
 
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = deepBlue,
-        )
-
+            containerColor = buttonColor
+        ), modifier = Modifier
+            .padding(top = 45.dp, bottom = 25.dp)
+            .height(70.dp)
+            .clip(MaterialTheme.shapes.extraLarge)
+            .alpha(1f)
     )
+
 }
 
